@@ -1,2 +1,2 @@
 // store values 
-public record CheckResults( bool Passed, string Message);
+public record CheckResult ( bool Passed, string Message);
