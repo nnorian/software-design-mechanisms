@@ -10,7 +10,7 @@ public class UsernameDuplicateCheck : IPasswordCheck{
 
         }
 
-        return ew CheckResult(true, "");
+        return new CheckResult(true, "");
     }
 
 }

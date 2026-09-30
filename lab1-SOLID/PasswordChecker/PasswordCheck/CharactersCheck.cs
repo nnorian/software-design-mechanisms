@@ -15,10 +15,6 @@ public class CharactersCheck: IPasswordCheck{
                 hasLower = true;
 
             }
-            else if (char.IsDigit(c){
-                hasLower = true;
-            }
-
             else if (char.IsDigit(c)){
                 hasDigit = true;
             }
@@ -29,7 +25,7 @@ public class CharactersCheck: IPasswordCheck{
         }
 
         if (!hasUpper || !hasLower || !hasDigit || !hasSpecial){
-            return new CheckResult(false, "password must contain uppercase, lowercase, digits and special characters")
+            return new CheckResult(false, "password must contain uppercase, lowercase, digits and special characters");
         }
 
         return new CheckResult(true, "");

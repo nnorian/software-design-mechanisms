@@ -1,10 +1,10 @@
-string rockYouPath = Path.Combine(AppContext.Basedirectory, "rockyou.txt");
+string rockYouPath = Path.Combine(AppContext.BaseDirectory, "rockyou.txt");
 
-var check = new List<IPasswordCheck>();
-check.Add(new MinLengthCheck(12));
-check.Add(new CharactersCheck());
-check.Add(new UsernameDuplicateCheck());
-check.Add(new BreachedPasswordCheck(new FileBreachedPassowrdSource(rockYouPath)));
+var checks = new List<IPasswordCheck>();
+checks.Add(new MinLengthCheck(12));
+checks.Add(new CharactersCheck());
+checks.Add(new UsernameDuplicateCheck());
+checks.Add(new BreachedPasswordCheck(new FileBreachedPasswordSource(rockYouPath)));
 
 var reader = new LoginReader();
 Credentials credentials = reader.Read();

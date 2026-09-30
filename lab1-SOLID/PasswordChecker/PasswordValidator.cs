@@ -3,8 +3,8 @@
 public class PasswordValidator{
     private readonly List<IPasswordCheck> _checks;
 
-    public PasswordValidator(List<IPasswordCheck> chack){
-        _check = check;
+    public PasswordValidator(List<IPasswordCheck> checks){
+        _checks = checks;
     }
 
     public List<CheckResult> Validate(Credentials credentials){
