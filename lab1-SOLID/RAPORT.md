@@ -215,7 +215,7 @@ The source is added in `Program.cs` and is given to the check through the constr
 
 ```csharp
 string rockYouPath = Path.Combine(AppContext.BaseDirectory, "rockyou.txt");
-// ...
+
 checks.Add(new BreachedPasswordCheck(new FileBreachedPasswordSource(rockYouPath)));
 ```
 
