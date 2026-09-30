@@ -7,13 +7,13 @@
 
 SOLID is a set of 5 principles for object oriented design. They were introduced by Robert C. Martin. The idea is to write code that is easy to read, change and extend.
 
-- **S – Single Responsibility Principle:** a class should have only one reason to change, so it does only one job.
-- **O – Open/Closed Principle:** a class should be open for extension, but closed for modification. New behavior is added with new code, not by changing the old code.
-- **L – Liskov Substitution Principle:** an object of a child class should work in every place where the parent class is expected, without breaking the program.
-- **I – Interface Segregation Principle:** it is better to have many small interfaces than one big interface. A class should not implement methods that it does not use.
-- **D – Dependency Inversion Principle:** high level classes should not depend on low level classes. Both should depend on abstractions (interfaces).
+- Single Responsibility Principle: a class should have only one reason to change, so it does only one job.
+- Open/Closed Principle: a class should be open for extension, but closed for modification. New behavior is added with new code, not by changing the old code.
+- Liskov Substitution Principle: an object of a child class should work in every place where the parent class is expected, without breaking the program.
+- Interface Segregation Principle: it is better to have many small interfaces than one big interface. A class should not implement methods that it does not use.
+- Dependency Inversion Principle: high level classes should not depend on low level classes. Both should depend on abstractions (interfaces).
 
-In this laboratory I had to implement 3 of these principles. I chose **SRP**, **OCP** and **DIP**.
+In this laboratory I had to implement 3 of these principles. I chose S O and D.
 
 ## The project
 
@@ -154,26 +154,14 @@ checks.Add(new UsernameDuplicateCheck());
 checks.Add(new BreachedPasswordCheck(new FileBreachedPasswordSource(rockYouPath)));
 ```
 
-So the project is **open for extension**. To add a new rule, I only create a new class. For example, a check for spaces (this class is only an example, it is not in the project):
-
-```csharp
-public class NoSpacesCheck : IPasswordCheck{
-    public CheckResult Check(Credentials credentials){
-        if (credentials.Password.Contains(" ")){
-            return new CheckResult(false, "password must not contain spaces");
-        }
-        return new CheckResult(true, "");
-    }
-}
-```
-
-and add one line in `Program.cs`:
+So the project is open for extension. To add a new rule, I only create a new class. For example, a check for spaces.
+and add one line in `Program.cs` like:
 
 ```csharp
 checks.Add(new NoSpacesCheck());
 ```
 
-The project is also **closed for modification**. `PasswordValidator` and the other checks stay the same.
+The project is also closed for modification as `PasswordValidator` and the other checks stay the same.
 
 ## Dependency Inversion Principle
 
@@ -202,7 +190,7 @@ public class BreachedPasswordCheck : IPasswordCheck{
 }
 ```
 
-The work with the file is in a separate class, `FileBreachedPasswordSource`. It reads `rockyou.txt` line by line, so the 140 MB file is not loaded in memory at once:
+The work with the file is in a separate class, `FileBreachedPasswordSource`. It reads `rockyou.txt` line by line:
 
 ```csharp
 public class FileBreachedPasswordSource: IBreachedPasswordSource{
@@ -223,7 +211,7 @@ public class FileBreachedPasswordSource: IBreachedPasswordSource{
 }
 ```
 
-The concrete source is created only in `Program.cs` and is given to the check through the constructor:
+The source is added in `Program.cs` and is given to the check through the constructor:
 
 ```csharp
 string rockYouPath = Path.Combine(AppContext.BaseDirectory, "rockyou.txt");
@@ -231,7 +219,7 @@ string rockYouPath = Path.Combine(AppContext.BaseDirectory, "rockyou.txt");
 checks.Add(new BreachedPasswordCheck(new FileBreachedPasswordSource(rockYouPath)));
 ```
 
-So the high level class (`BreachedPasswordCheck`) and the low level class (`FileBreachedPasswordSource`) both depend on the abstraction `IBreachedPasswordSource`. If later I want to check the passwords with an online API instead of rockyou, I only write a new class that implements `IBreachedPasswordSource` and change one line in `Program.cs`. `BreachedPasswordCheck` stays the same.
+So the high level class (`BreachedPasswordCheck`) and the low level class (`FileBreachedPasswordSource`) both depend on the abstraction `IBreachedPasswordSource`. If later I want to check the passwords with an online API instead of rockyou, you only write a new class that implements `IBreachedPasswordSource` and change one line in `Program.cs`. `BreachedPasswordCheck` stays the same.
 
 The same idea is used in `PasswordValidator`. It depends on `IPasswordCheck`, not on `MinLengthCheck` or `CharactersCheck`.
 
@@ -239,9 +227,9 @@ The same idea is used in `PasswordValidator`. It depends on `IPasswordCheck`, no
 
 In this laboratory I implemented a simple password checker and used 3 SOLID principles: SRP, OCP and DIP.
 
-- Because of **SRP**, the classes are small and each of them has one job, so the code is easy to read and to change.
-- Because of **OCP**, I can add a new password rule with a new class, without changing `PasswordValidator`.
-- Because of **DIP**, the breach check does not depend on the `rockyou.txt` file, so the source of leaked passwords can be changed easily.
+- Because of single responsability principle, the classes are small and each of them has one job, so the code is easy to read and to change.
+- Because of Open/Closed Principle, I can add a new password rule with a new class, without changing `PasswordValidator`.
+- Because of dependency inversion principle, the breach check does not depend on the `rockyou.txt` file, so the source of leaked passwords can be changed easily.
 
 The project also follows LSP and ISP a bit. Every check can be used where an `IPasswordCheck` is expected, and both interfaces are small, with only one method.
 
