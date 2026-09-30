@@ -55,3 +55,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Unzipped wordlist (commit only rockyou.zip)
+rockyou.txt
