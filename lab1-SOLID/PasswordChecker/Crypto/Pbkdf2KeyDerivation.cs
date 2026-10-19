@@ -5,7 +5,7 @@ public class Pbkdf2KeyDerivation : IKeyDerivation{
     private readonly HashAlgorithmName _hash;
     private readonly int _iterations;
 
-    public Pbkdf2KeyDerivation(HashAlgorithmName hash, int iteratons){
+    public Pbkdf2KeyDerivation(HashAlgorithmName hash, int iterations){
         _hash = hash;
         _iterations = iterations;
     }
