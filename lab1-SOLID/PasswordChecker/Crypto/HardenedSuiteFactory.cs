@@ -9,7 +9,7 @@ public class HardenedSuiteFactory : ICryptoSuiteFactory {
 
     }
 
-    public IChipher CreateCipher(){
+    public ICipher CreateCipher(){
         return new ChaCha20Cipher();
     }
 }
