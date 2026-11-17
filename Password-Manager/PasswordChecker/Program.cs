@@ -5,9 +5,9 @@
 // Lab 2: structural patterns
 //   Adapter -> PasswordCheck/ZipBreachedPasswordSource.cs
 //   Proxy   -> PasswordCheck/CachedBreachedPasswordSource.cs
-//   Facade  -> PasswordPolicy.cs
+//   Facade  -> PasswordPolicy.cs (built by PasswordPolicyFactory.cs)
 
-var policy = new PasswordPolicy(AppContext.BaseDirectory);
+var policy = PasswordPolicyFactory.CreateDefault(AppContext.BaseDirectory);
 var vaultFile = new VaultFile("vault.json");
 var presets = new PasswordPresets();
 var charsBuilder = new RandomCharsBuilder();
