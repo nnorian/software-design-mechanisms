@@ -13,7 +13,7 @@ public static class PasswordPolicyFactory{
 
         IBreachedPasswordSource? source = FindBreachedSource(folder);
         if (source != null){
-            checks.Add(new BreachedPasswordCheck(new CachedBreachedPasswordSource(source)));
+            checks.Add(new BreachedPasswordCheck(new CachedBreachedPasswordSource(source, Console.Out)));
         }
         else{
             Console.WriteLine("Warning: rockyou.txt and rockyou.zip were not found, the leaked passwords check is skipped");
