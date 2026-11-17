@@ -1,9 +1,9 @@
 // proxy
 // same face as the real source 
-// rembers previous chcks
-// the search runs only ones for each password
+// remembers previous checks
+// the search runs only once for each password
 
-public class CachedPasswordSource : IBreachedPasswordSource{
+public class CachedBreachedPasswordSource : IBreachedPasswordSource{
 
     private readonly IBreachedPasswordSource _realSource;
     private readonly Dictionary<string, bool> _cache = new();

@@ -2,9 +2,12 @@
 //   Abstract Factory -> Crypto/     
 //   Builder          -> Generation/
 //   Prototype        -> Entries/
+// Lab 2: structural patterns
+//   Adapter -> PasswordCheck/ZipBreachedPasswordSource.cs
+//   Proxy   -> PasswordCheck/CachedBreachedPasswordSource.cs
+//   Facade  -> PasswordPolicy.cs
 
-string rockYouPath = Path.Combine(AppContext.BaseDirectory, "rockyou.txt");
-
+var policy = new PasswordPolicy(AppContext.BaseDirectory);
 var vaultFile = new VaultFile("vault.json");
 var presets = new PasswordPresets();
 var charsBuilder = new RandomCharsBuilder();
@@ -36,16 +39,11 @@ while (true){
     else if (choice == "6") ShowEntries();
 }
 
+// Facade: Program only asks the policy for the problems
 void CheckPassword(){
-    Credentials credentials = new LoginReader().Read();
-    bool isGood = true;
-    foreach (var result in Validate(credentials)){
-        if (!result.Passed){
-            Console.WriteLine(result.Message);
-            isGood = false;
-        }
-    }
-    Console.WriteLine(isGood ? "Good password" : "Bad password");
+    List<string> problems = policy.Problems(new LoginReader().Read());
+    problems.ForEach(Console.WriteLine);
+    Console.WriteLine(problems.Count == 0 ? "Good password" : "Bad password");
 }
 
 // Builder: the same recipe (Director) can be used with both builders
@@ -78,11 +76,9 @@ void CreateVault(){
     masterPassword = Console.ReadLine() ?? "";
 
     // the master password must pass the Lab 0 rules
-    var failed = Validate(new Credentials("", masterPassword)).Where(r => !r.Passed).ToList();
-    if (failed.Count > 0){
-        foreach (var result in failed){
-            Console.WriteLine(result.Message);
-        }
+    List<string> problems = policy.Problems(new Credentials("", masterPassword));
+    if (problems.Count > 0){
+        problems.ForEach(Console.WriteLine);
         Console.WriteLine("Choose a stronger master password");
         return;
     }
@@ -151,15 +147,4 @@ void ShowEntries(){
     foreach (var entry in entries){
         Console.WriteLine(entry);
     }
-}
-
-List<CheckResult> Validate(Credentials credentials){
-    var checks = new List<IPasswordCheck>();
-    checks.Add(new MinLengthCheck(12));
-    checks.Add(new CharactersCheck());
-    checks.Add(new UsernameDuplicateCheck());
-    if (File.Exists(rockYouPath)){
-        checks.Add(new BreachedPasswordCheck(new FileBreachedPasswordSource(rockYouPath)));
-    }
-    return new PasswordValidator(checks).Validate(credentials);
 }

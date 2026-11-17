@@ -8,7 +8,7 @@ public class PasswordPolicy{
         var checks = new List<IPasswordCheck>{
 
             new MinLengthCheck(12),
-            new CharacterCheck(),
+            new CharactersCheck(),
             new UsernameDuplicateCheck()
         };
 
