@@ -1,4 +1,4 @@
-# Laboratory Work Nr. 3 — Structural Design Patterns
+# Laboratory Work Nr. 3 Structural Design Patterns
 
 **Student:** Kushnirenko Ecaterina
 **Academic group:** FAF-243
